@@ -1,6 +1,4 @@
 const readline = require('readline');
-
-// الـ API Key الخاص بكِ من WeatherAPI.com
 const API_KEY = 'f6bf1f3cf0354ada8e292914260909'; 
 
 const rl = readline.createInterface({
@@ -15,7 +13,6 @@ async function getWeatherData(countryName) {
         const response = await fetch(url);
         const data = await response.json();
 
-        // 1. التعامل مع الأخطاء القادمة من الـ API
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
                 console.log('\n❌ Error: Invalid API Key / Token. Please check your credentials.');
@@ -27,12 +24,10 @@ async function getWeatherData(countryName) {
             return;
         }
 
-        // 2. استخراج البيانات المطلوبة
         const temperature = data.current.temp_c;
         const longitude = data.location.lon;
         const latitude = data.location.lat;
 
-        // 3. عرض البيانات بشكل مرتب
         console.log('\n====================================');
         console.log(`🌍 Weather Data for: ${data.location.name}, ${data.location.country}`);
         console.log('====================================');
@@ -42,14 +37,11 @@ async function getWeatherData(countryName) {
         console.log('====================================\n');
 
     } catch (error) {
-        // 4. التعامل مع أخطاء الشبكة
         console.log('\n❌ Network Error: Unable to connect to the server. Check your internet connection.');
     } finally {
         rl.close();
     }
 }
-
-// طلب اسم الدولة من المستخدم
 rl.question('Enter the name of a country or city: ', (countryInput) => {
     const trimmedInput = countryInput.trim();
 
